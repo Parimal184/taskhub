@@ -12,14 +12,15 @@ import com.taskhub.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@RestController(value = "/user")
+@RestController
+@RequestMapping(value = "/user")
 public class UserController {
 	
 	@Autowired
 	UserService service;
 	
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveUser(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, @RequestBody User user) {
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String registerUser(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, @RequestBody User user) {
 		
 		System.out.println("Test Save");
 		service.saveUser(user);

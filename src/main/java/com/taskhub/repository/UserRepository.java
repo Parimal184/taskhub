@@ -7,5 +7,6 @@ import com.taskhub.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-
+	
+	public User findByUserName(String userName);
 }
