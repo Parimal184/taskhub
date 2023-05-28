@@ -29,13 +29,10 @@ public class UserService implements UserDetailsService{
 	public User loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		User user = userRepository.findByUserName(username);
-		
 		if(user != null) {
 			return user;
-		} else {
-			throw new UsernameNotFoundException("User not found!");
 		}
-		
+		return null;
 	}
 	
 }

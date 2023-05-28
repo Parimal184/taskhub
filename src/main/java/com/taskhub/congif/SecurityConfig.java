@@ -19,22 +19,18 @@ import com.taskhub.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
-	
+
 	private JwtAuthEntryPoint jwtAuthEntryPoint;
-	private UserService userService;
 	
 	@Autowired
     public SecurityConfig(UserService userService, JwtAuthEntryPoint jwtAuthEntryPoint) {
-        this.userService = userService;
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
- 
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-
-		httpSecurity.csrf().disable().authorizeHttpRequests().requestMatchers("/user/register", "/authenticate")
+		
+		httpSecurity.csrf().disable().authorizeHttpRequests().requestMatchers("/auth/register", "/authenticate")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
