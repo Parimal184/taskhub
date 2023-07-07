@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.taskhub.common.Constants;
 import com.taskhub.filters.JwtFilter;
 import com.taskhub.service.UserService;
 
@@ -30,7 +31,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		
-		httpSecurity.csrf().disable().authorizeHttpRequests().requestMatchers("/auth/register", "/authenticate")
+		httpSecurity.csrf().disable().authorizeHttpRequests().requestMatchers(Constants.API_URL + "/register", "/authenticate")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

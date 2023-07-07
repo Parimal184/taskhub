@@ -18,8 +18,6 @@ public class UserService implements UserDetailsService{
 	
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
-	
-	
 	public void saveUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
@@ -33,6 +31,14 @@ public class UserService implements UserDetailsService{
 			return user;
 		}
 		return null;
+	}
+	
+	public User getUserByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		if(user != null) {
+			return user;
+		}
+		return user;
 	}
 	
 }
