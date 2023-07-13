@@ -1,12 +1,5 @@
 package com.taskhub.model;
 
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,21 +16,22 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private Long id;
 	
-	@Column
+	@Column(name = "password")
 	private String password;
 	
-	@Column
+	@Column(name = "user_name")
 	private String userName;
 	
-	@Column
+	@Column(name = "first_name")
 	private String firstName;
 	
-	@Column
+	@Column(name = "last_name")
 	private String lastName;
 	
-	@Column
+	@Column(name = "email")
 	private String email;
 	
 	public User() {};
