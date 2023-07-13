@@ -1,6 +1,7 @@
 package com.taskhub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.taskhub.model.User;
+import com.taskhub.model.UserCredentials;
 import com.taskhub.repository.UserRepository;
 
 @Service
@@ -24,17 +26,22 @@ public class UserService implements UserDetailsService{
 	}
 
 	@Override
-	public User loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		User user = userRepository.findByUserName(username);
-		if(user != null) {
-			return user;
+		User user = userRepository.findUserByUserName(username);
+		UserCredentials credentials = new UserCredentials(user);
+		if(credentials != null) {
+			return credentials;
 		}
 		return null;
 	}
 	
+	public User findUserByUserName(String userName) {
+		return userRepository.findUserByUserName(userName);
+	}
+	
 	public User getUserByEmail(String email) {
-		User user = userRepository.findByEmail(email);
+		User user = userRepository.findUserByEmail(email);
 		if(user != null) {
 			return user;
 		}

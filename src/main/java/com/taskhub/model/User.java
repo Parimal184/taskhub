@@ -14,7 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class User implements UserDetails {
+public class User {
 	
 	/**
 	 * 
@@ -68,8 +68,7 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	@Override
-	public String getUsername() {
+	public String getUserName() {
 		return userName;
 	}
 
@@ -105,36 +104,6 @@ public class User implements UserDetails {
 	public String toString() {
 		return "User [id=" + id + ", password=" + password + ", userName=" + userName + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", email=" + email + "]";
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
 	}
 	
 }

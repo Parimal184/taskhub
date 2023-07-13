@@ -1,6 +1,9 @@
 package com.taskhub.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +22,7 @@ import com.taskhub.dto.UserDTO;
 import com.taskhub.model.JwtRequest;
 import com.taskhub.model.JwtResponse;
 import com.taskhub.model.User;
+import com.taskhub.model.UserCredentials;
 import com.taskhub.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +33,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @CrossOrigin("http://localhost:4200")
 public class JwtAuthController {
 
+	public static final Logger logger = LoggerFactory.getLogger(JwtAuthController.class);
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -39,17 +45,24 @@ public class JwtAuthController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
+	public ResponseEntity<?> login(@RequestBody JwtRequest authenticationRequest) throws Exception {
+		
+		logger.warn("authenticationRequest ::"+authenticationRequest);
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
 		final User user = userService
-				.loadUserByUsername(authenticationRequest.getUsername());
-
-		final String token = jwtUtils.generateToken(user);
-
-		return ResponseEntity.ok(new JwtResponse(token));
+				.findUserByUserName(authenticationRequest.getUsername());
+		
+		UserCredentials credentials = new UserCredentials(user); 
+		HttpHeaders headers = getJwtHeader(credentials);
+		logger.warn("Headers :"+headers);
+		return new ResponseEntity<>(user, headers, HttpStatus.OK);
 	}
+	
+	private HttpHeaders getJwtHeader(UserCredentials user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Jwt-Token", jwtUtils.generateToken(user));
+        return headers;
+    }
 
 	private void authenticate(String username, String password) throws Exception {
 		try {

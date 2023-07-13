@@ -31,7 +31,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		
-		httpSecurity.csrf().disable().authorizeHttpRequests().requestMatchers(Constants.API_URL + "/register", "/authenticate")
+		httpSecurity.csrf().disable().authorizeHttpRequests().requestMatchers(Constants.API_URL + "/register", Constants.API_URL + "/login")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

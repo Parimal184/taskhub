@@ -11,6 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.taskhub.congif.JwtUtils;
 import com.taskhub.model.User;
+import com.taskhub.model.UserCredentials;
 import com.taskhub.service.UserService;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -53,8 +54,10 @@ public class JwtFilter extends OncePerRequestFilter {
 		// Once we get the token validate it.
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-			User user = this.userService.loadUserByUsername(username);
-
+			User loginUser = userService.findUserByUserName(username);
+			
+			UserCredentials user = new UserCredentials(loginUser);
+			
 			// if token is valid configure Spring Security to manually set
 			// authentication
 			if (jwtUtils.validateToken(jwtToken, user)) {

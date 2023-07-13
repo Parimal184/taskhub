@@ -34,7 +34,6 @@ public class UserController {
 	public ResponseEntity<? extends Object> registerUser(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, @RequestBody UserDTO userDTO) {
 		
 		User user = userService.getUserByEmail(userDTO.getEmail());
-		
 		if(user == null) {
 			user = new User();
 			userDTO.toMap(user);
