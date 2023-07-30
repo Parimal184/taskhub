@@ -58,13 +58,5 @@ public class UserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public void toMap(User user) {
-		user.setEmail(this.getEmail());
-		user.setFirstName(this.getFirstName());
-		user.setPassword(this.getPassword());
-		user.setUserName(this.getUserName());
-		user.setLastName(this.getLastName());
-	}
 
 }

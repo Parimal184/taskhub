@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.taskhub.common.Constants;
 import com.taskhub.filters.JwtFilter;
-import com.taskhub.service.UserService;
+import com.taskhub.serviceImpl.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +24,7 @@ public class SecurityConfig {
 	private JwtAuthEntryPoint jwtAuthEntryPoint;
 	
 	@Autowired
-    public SecurityConfig(UserService userService, JwtAuthEntryPoint jwtAuthEntryPoint) {
+    public SecurityConfig(UserServiceImpl userService, JwtAuthEntryPoint jwtAuthEntryPoint) {
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 

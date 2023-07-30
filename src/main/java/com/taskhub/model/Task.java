@@ -3,6 +3,8 @@ package com.taskhub.model;
 import java.util.Date;
 import java.util.List;
 
+import com.taskhub.dto.TaskTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -63,6 +65,20 @@ public class Task {
 		this.dueDate = dueDate;
 	}
 
+	public Task(TaskTO to) {
+		super();
+		this.title = to.getTitle();
+		this.description = to.getDescription();
+		this.status = to.getStatus();
+		this.priority = to.getPriority();
+		this.creator = to.getCreator();
+		this.assignee = to.getAssignee();
+		this.comments = to.getComments();
+		this.created = to.getCreated();
+		this.updated = to.getUpdated();
+		this.dueDate = to.getDueDate();
+	}
+	
 	public Long getId() {
 		return id;
 	}

@@ -3,6 +3,7 @@ package com.taskhub.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import com.taskhub.model.JwtResponse;
 import com.taskhub.model.User;
 import com.taskhub.model.UserCredentials;
 import com.taskhub.service.UserService;
+import com.taskhub.serviceImpl.UserServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;				
@@ -50,7 +52,7 @@ public class JwtAuthController {
 		logger.warn("authenticationRequest ::"+authenticationRequest);
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		final User user = userService
-				.findUserByUserName(authenticationRequest.getUsername());
+				.findByUserName(authenticationRequest.getUsername());
 		
 		UserCredentials credentials = new UserCredentials(user); 
 		HttpHeaders headers = getJwtHeader(credentials);

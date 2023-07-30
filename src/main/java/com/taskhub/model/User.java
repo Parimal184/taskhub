@@ -1,5 +1,7 @@
 package com.taskhub.model;
 
+import com.taskhub.dto.UserDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +46,14 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+	}
+	
+	public User(UserDTO to) {
+		this.password = to.getPassword();
+		this.userName = to.getUserName();
+		this.firstName = to.getFirstName();
+		this.lastName = to.getLastName();
+		this.email = to.getEmail();
 	}
 
 	public Long getId() {
