@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.taskhub.model.Task;
+import com.taskhub.model.TaskStatus;
+
 public class TaskTO implements Serializable{
 
 	/**
@@ -15,21 +18,17 @@ public class TaskTO implements Serializable{
 	
 	private String description;
 	
-	private String status;
+	private TaskStatus status;
 	
 	private String priority;
-	
-	private String creator;
-	
-	private String assignee;
-	
-	private List<String> comments;
 	
 	private Date created;
 	
 	private Date updated;
 	
 	private Date dueDate;
+	
+	private String creatorEmail;
 	
 	public TaskTO() {}
 
@@ -49,11 +48,14 @@ public class TaskTO implements Serializable{
 		this.description = description;
 	}
 
-	public String getStatus() {
+	public TaskStatus getStatus() {
+		if(status == null) {
+			status = TaskStatus.TODO;
+		}
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
 
@@ -65,31 +67,10 @@ public class TaskTO implements Serializable{
 		this.priority = priority;
 	}
 
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
-	public String getAssignee() {
-		return assignee;
-	}
-
-	public void setAssignee(String assignee) {
-		this.assignee = assignee;
-	}
-
-	public List<String> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<String> comments) {
-		this.comments = comments;
-	}
-
 	public Date getCreated() {
+		if(created == null) {
+			created = new Date();
+		}
 		return created;
 	}
 
@@ -98,6 +79,9 @@ public class TaskTO implements Serializable{
 	}
 
 	public Date getUpdated() {
+		if(updated == null) {
+			updated = new Date();
+		}
 		return updated;
 	}
 
@@ -112,6 +96,13 @@ public class TaskTO implements Serializable{
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-	
+
+	public String getCreatorEmail() {
+		return creatorEmail;
+	}
+
+	public void setCreatorEmail(String creatorEmail) {
+		this.creatorEmail = creatorEmail;
+	}
 	
 }

@@ -1,19 +1,29 @@
 package com.taskhub.model;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import com.taskhub.dto.TaskTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Task {
+public class Task implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2533177731820540366L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "task_id")
@@ -25,20 +35,12 @@ public class Task {
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "task_status")
-	private String status;
+	@Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private TaskStatus status;
 	
 	@Column(name = "priorirty")
 	private String priority;
-	
-	@Column(name = "creator")
-	private String creator;
-	
-	@Column(name = "assignee")
-	private String assignee;
-	
-	@Column(name = "comments")
-	private List<String> comments;
 	
 	@Column(name = "created")
 	private Date created;
@@ -48,37 +50,37 @@ public class Task {
 	
 	@Column(name = "due_date")
 	private Date dueDate;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+	
+	public Task() {}
 
-	public Task(Long id, String title, String description, String status, String priority, String creator, String assignee,
-			List<String> comments, Date created, Date updated, Date dueDate) {
+	public Task(Long id, String title, String description, TaskStatus status, String priority, Date created,
+			Date updated, Date dueDate, User user) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.status = status;
 		this.priority = priority;
-		this.creator = creator;
-		this.assignee = assignee;
-		this.comments = comments;
 		this.created = created;
 		this.updated = updated;
 		this.dueDate = dueDate;
+		this.user = user;
+	}	
+
+	public Task(TaskTO taskTo) {
+		this.title = taskTo.getTitle();
+		this.description = taskTo.getDescription();
+		this.status = taskTo.getStatus();
+		this.priority = taskTo.getPriority();
+		this.created = taskTo.getCreated();
+		this.updated = taskTo.getUpdated();
+		this.dueDate = taskTo.getDueDate();
 	}
 
-	public Task(TaskTO to) {
-		super();
-		this.title = to.getTitle();
-		this.description = to.getDescription();
-		this.status = to.getStatus();
-		this.priority = to.getPriority();
-		this.creator = to.getCreator();
-		this.assignee = to.getAssignee();
-		this.comments = to.getComments();
-		this.created = to.getCreated();
-		this.updated = to.getUpdated();
-		this.dueDate = to.getDueDate();
-	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -103,11 +105,11 @@ public class Task {
 		this.description = description;
 	}
 
-	public String getStatus() {
+	public TaskStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
 
@@ -119,44 +121,20 @@ public class Task {
 		this.priority = priority;
 	}
 
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
-	public String getAssignee() {
-		return assignee;
-	}
-
-	public void setAssignee(String assignee) {
-		this.assignee = assignee;
-	}
-
-	public List<String> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<String> comments) {
-		this.comments = comments;
-	}
-
-	public Date getCreatedAt() {
+	public Date getCreated() {
 		return created;
 	}
 
-	public void setCreatedAt(Date createdAt) {
-		this.created = createdAt;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
-	public Date getUpdatedAt() {
+	public Date getUpdated() {
 		return updated;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updated = updatedAt;
+	public void setUpdated(Date updated) {
+		this.updated = updated;
 	}
 
 	public Date getDueDate() {
@@ -167,11 +145,13 @@ public class Task {
 		this.dueDate = dueDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Task [id=" + id + ", title=" + title + ", description=" + description + ", status=" + status
-				+ ", priority=" + priority + ", creator=" + creator + ", assignee=" + assignee + ", comments="
-				+ comments + ", createdAt=" + created + ", updatedAt=" + updated + ", dueDate=" + dueDate + "]";
+	public User getUser() {
+		return user;
 	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+		
 }
