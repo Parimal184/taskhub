@@ -1,4 +1,4 @@
-package com.taskhub.model;
+package com.taskhub.common;
 
 public enum TaskStatus {
 	TODO,

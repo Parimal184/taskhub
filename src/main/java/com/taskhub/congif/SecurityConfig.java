@@ -21,6 +21,7 @@ import com.taskhub.serviceImpl.UserServiceImpl;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	@Autowired
 	private JwtAuthEntryPoint jwtAuthEntryPoint;
 	
 	@Autowired

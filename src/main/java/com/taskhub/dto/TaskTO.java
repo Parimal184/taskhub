@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.taskhub.common.TaskPriority;
+import com.taskhub.common.TaskStatus;
 import com.taskhub.model.Task;
-import com.taskhub.model.TaskStatus;
 
 public class TaskTO implements Serializable{
 
@@ -20,7 +21,7 @@ public class TaskTO implements Serializable{
 	
 	private TaskStatus status;
 	
-	private String priority;
+	private TaskPriority priority;
 	
 	private Date created;
 	
@@ -59,11 +60,11 @@ public class TaskTO implements Serializable{
 		this.status = status;
 	}
 
-	public String getPriority() {
+	public TaskPriority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(String priority) {
+	public void setPriority(TaskPriority priority) {
 		this.priority = priority;
 	}
 

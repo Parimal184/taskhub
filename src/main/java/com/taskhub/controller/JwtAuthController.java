@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.taskhub.common.Constants;
 import com.taskhub.congif.JwtUtils;
 import com.taskhub.dto.UserDTO;
+import com.taskhub.exceptions.AuthException;
 import com.taskhub.model.JwtRequest;
 import com.taskhub.model.JwtResponse;
 import com.taskhub.model.User;
@@ -49,15 +51,19 @@ public class JwtAuthController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		
-		logger.warn("authenticationRequest ::"+authenticationRequest);
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-		final User user = userService
-				.findByUserName(authenticationRequest.getUsername());
-		
-		UserCredentials credentials = new UserCredentials(user); 
-		HttpHeaders headers = getJwtHeader(credentials);
-		logger.warn("Headers :"+headers);
-		return new ResponseEntity<>(user, headers, HttpStatus.OK);
+		try {			
+			logger.warn("authenticationRequest ::"+authenticationRequest);
+			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+			final User user = userService
+					.findByUserName(authenticationRequest.getUsername());
+			
+			UserCredentials credentials = new UserCredentials(user); 
+			HttpHeaders headers = getJwtHeader(credentials);
+			logger.warn("Headers :"+headers);
+			return new ResponseEntity<>(user, headers, HttpStatus.OK);
+		} catch (Exception e) {
+			throw new AuthException("Username or Password not valid!");
+		}
 	}
 	
 	private HttpHeaders getJwtHeader(UserCredentials user) {

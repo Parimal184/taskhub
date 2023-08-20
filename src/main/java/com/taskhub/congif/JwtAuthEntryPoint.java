@@ -22,8 +22,9 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint, Serializable
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not Authorized");
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	    response.setContentType("application/json");
+	    response.getWriter().write("{\"message\": \""+authException.getMessage()+"\"}");
 	}
 
 }

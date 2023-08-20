@@ -3,6 +3,8 @@ package com.taskhub.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.taskhub.common.TaskPriority;
+import com.taskhub.common.TaskStatus;
 import com.taskhub.dto.TaskTO;
 
 import jakarta.persistence.Column;
@@ -36,11 +38,11 @@ public class Task implements Serializable{
 	private String description;
 	
 	@Enumerated(EnumType.STRING)
-    @Column(nullable = true)
     private TaskStatus status;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "priorirty")
-	private String priority;
+	private TaskPriority priority;
 	
 	@Column(name = "created")
 	private Date created;
@@ -57,7 +59,7 @@ public class Task implements Serializable{
 	
 	public Task() {}
 
-	public Task(Long id, String title, String description, TaskStatus status, String priority, Date created,
+	public Task(Long id, String title, String description, TaskStatus status, TaskPriority priority, Date created,
 			Date updated, Date dueDate, User user) {
 		super();
 		this.id = id;
@@ -113,11 +115,11 @@ public class Task implements Serializable{
 		this.status = status;
 	}
 
-	public String getPriority() {
+	public TaskPriority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(String priority) {
+	public void setPriority(TaskPriority priority) {
 		this.priority = priority;
 	}
 
@@ -153,5 +155,11 @@ public class Task implements Serializable{
 		this.user = user;
 	}
 
-		
+	@Override
+	public String toString() {
+		return "Task [id=" + id + ", title=" + title + ", description=" + description + ", status=" + status
+				+ ", priority=" + priority + ", created=" + created + ", updated=" + updated + ", dueDate=" + dueDate
+				+ ", user=" + user + "]";
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.taskhub.service;
 
+import java.util.List;
+
 import com.taskhub.model.Task;
 
 public interface TaskService {
@@ -8,5 +10,7 @@ public interface TaskService {
 	
 	Task getTaskById(Long id);
 	
-	void updateTask(Long id);
+	void updateTask(Task task);
+	
+	List<Task> getAllTasks(); 
 }

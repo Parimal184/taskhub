@@ -1,5 +1,10 @@
 package com.taskhub.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +25,20 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task getTaskById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Task task = repository.getTaskById(id);
+		return task;
 	}
 
 	@Override
-	public void updateTask(Long id) {
-		// TODO Auto-generated method stub
-		
+	public void updateTask(Task task) {
+		repository.save(task);
+	}
+
+	@Override
+	public List<Task> getAllTasks() {
+		List<Task> tasks = new ArrayList<>();
+		tasks = repository.findAll();
+		return new ArrayList<>(tasks);
 	}
 
 }
