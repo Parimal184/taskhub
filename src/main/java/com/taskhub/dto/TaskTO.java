@@ -15,6 +15,8 @@ public class TaskTO implements Serializable{
 	 */
 	private static final long serialVersionUID = 8659141815859846253L;
 
+	private Long id;
+	
 	private String title;
 	
 	private String description;
@@ -32,6 +34,17 @@ public class TaskTO implements Serializable{
 	private String creatorEmail;
 	
 	public TaskTO() {}
+
+	
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 
 	public String getTitle() {
 		return title;
