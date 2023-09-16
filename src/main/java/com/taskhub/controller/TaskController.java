@@ -20,7 +20,9 @@ import com.taskhub.common.Constants;
 import com.taskhub.common.TaskStatus;
 import com.taskhub.dto.TaskTO;
 import com.taskhub.model.Task;
+import com.taskhub.model.User;
 import com.taskhub.service.TaskService;
+import com.taskhub.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,40 +31,46 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping(value = Constants.API_URL)
 @CrossOrigin("http://localhost:4200")
 public class TaskController {
-	
+
 	@Autowired
 	TaskService service;
-	
+
+	@Autowired
+	UserService userService;
+
 	@RequestMapping(value = "/task/save", method = RequestMethod.POST)
-	public ResponseEntity<?> saveOrUpdateTask(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, @RequestBody TaskTO taskTo) {
+	public ResponseEntity<?> saveOrUpdateTask(HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse, @RequestBody TaskTO taskTo) {
 		Task task = service.saveOrUpdateTask(taskTo);
 		return new ResponseEntity<>(task, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = {"/tasks/{status}","/tasks/"}, method = RequestMethod.GET)
-	public ResponseEntity<?> getAllTasks(@PathVariable String status) {
+
+	@RequestMapping(value = { "/tasks/{status}", "/tasks/" }, method = RequestMethod.GET)
+	public ResponseEntity<?> getAllTasks(HttpServletRequest request, @PathVariable String status, @RequestParam Long id) {
 		Map<String, List<Task>> json = new HashMap<>();
 		List<Task> tasks = new ArrayList<>();
-		if(status.equals("all")) {
-			tasks = service.getAllTasks();			
+		User user = userService.findById(id);
+		System.out.println("user :::"+user);
+		if (status.equals("all")) {
+			tasks = service.getAllByUser(user);
 		} else {
 			TaskStatus status2 = Enum.valueOf(TaskStatus.class, status.toUpperCase());
-			tasks = service.getTasksByStatus(status2);
+			tasks = service.getTasksByUserAndStatus(status2, user);
 		}
 		json.put("tasks", tasks);
 		return new ResponseEntity<>(json, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/task", method = RequestMethod.GET)
 	public ResponseEntity<?> getTask(@RequestParam Long id) {
 		Task task = service.getTaskById(id);
 		return new ResponseEntity<Task>(task, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	public void deleteTask(@RequestParam Long id) {
 		Task task = service.getTaskById(id);
 		service.delete(task);
 	}
-	
+
 }

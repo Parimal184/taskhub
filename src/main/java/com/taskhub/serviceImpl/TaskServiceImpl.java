@@ -70,4 +70,17 @@ public class TaskServiceImpl implements TaskService {
 		return tasks;
 	}
 
+	@Override
+	public List<Task> getAllByUser(User user) {
+		List<Task> tasks = new ArrayList<>();
+		tasks = repository.findByUser(user);
+		return new ArrayList<>(tasks);
+	}
+
+	@Override
+	public List<Task> getTasksByUserAndStatus(TaskStatus status, User user) {
+		List<Task> tasks = repository.findByUserAndStatus(status, user);
+		return tasks;
+	}
+
 }

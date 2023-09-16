@@ -1,5 +1,6 @@
 package com.taskhub.model;
 
+
 import com.taskhub.dto.UserDTO;
 
 import jakarta.persistence.Column;
@@ -36,9 +37,12 @@ public class User {
 	@Column(name = "email")
 	private String email;
 	
+	@Column
+	private String profileImageUrl;
+	
 	public User() {};
 
-	public User(Long id, String password, String userName, String firstName, String lastName, String email) {
+	public User(Long id, String password, String userName, String firstName, String lastName, String email, String profileImageUrl) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -46,6 +50,7 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.profileImageUrl = profileImageUrl;
 	}
 	
 	public User(UserDTO to) {
@@ -104,10 +109,18 @@ public class User {
 		this.email = email;
 	}
 
+	public String getProfileImageUrl() {
+		return profileImageUrl;
+	}
+
+	public void setProfileImageUrl(String profileImageUrl) {
+		this.profileImageUrl = profileImageUrl;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", password=" + password + ", userName=" + userName + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + "]";
+				+ ", lastName=" + lastName + ", email=" + email + ", profileImageUrl=" + profileImageUrl + "]";
 	}
 	
 }

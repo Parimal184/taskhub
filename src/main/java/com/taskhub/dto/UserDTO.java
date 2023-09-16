@@ -1,6 +1,8 @@
 package com.taskhub.dto;
 
-import com.taskhub.model.User;
+import java.sql.Blob;
+
+import jakarta.persistence.Lob;
 
 public class UserDTO {
 	
@@ -9,14 +11,16 @@ public class UserDTO {
 	private String firstName;	
 	private String lastName;	
 	private String email;
+	private String profileImageUrl;
 	
-	public UserDTO(String password, String userName, String firstName, String lastName, String email) {
+	public UserDTO(String password, String userName, String firstName, String lastName, String email, String profileImageUrl) {
 		super();
 		this.password = password;
 		this.userName = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.profileImageUrl = profileImageUrl;
 	}
 
 	public String getPassword() {
@@ -59,4 +63,12 @@ public class UserDTO {
 		this.email = email;
 	}
 
+	public String getProfilePhoto() {
+		return profileImageUrl;
+	}
+
+	public void setProfilePhoto(String profileImageUrl) {
+		this.profileImageUrl = profileImageUrl;
+	}
+	
 }
